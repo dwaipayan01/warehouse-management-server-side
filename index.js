@@ -48,7 +48,6 @@ async function run() {
         app.put("/inventory/:id", async (req, res) => {
             const id = req.params.id;
             const renewQuantity = req.body;
-            console.log(renewQuantity);
             const filter = { _id: ObjectId(id) };
             const options = { upsert: true };
             const updatedDoc = {
@@ -58,7 +57,20 @@ async function run() {
             };
             const result = await productCollection.updateOne(filter, updatedDoc, options);
             res.send(result);
-        })
+        });
+        app.put("/user/:id", async (req, res) => {
+            const id = req.params.id;
+            const renewQuantity = req.body;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: {
+                    quantity: renewQuantity.newValue
+                }
+            };
+            const result = await productCollection.updateOne(filter, updatedDoc, options);
+            res.send(result);
+        });
 
 
     }
